@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{margin:0; padding:0}
+        table {width:100%;margin:100px 0 300px}
+        table th{padding:8px 0;text-align: center;background-color:#e1e3ed;}
+        table td {padding:10px 18px;border-left: 1px solid #eee;border-top: 1px solid #eee;}
+        .g{color:green;font-weight:bold;}
+        
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2" colspan="2">ARIA</th>
+                <th colspan="2">예시 코드 및 테스트 결과</th>
+            </tr>
+            <tr>
+                <th>as-is</th>
+                <th>to-be</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+               <th rowspan="6">role</th>
+               <th rowspan="2">button</th>
+               <td>
+                    1. 일반 태그에 role=""button""<br>
+                    &lt;div role=""button"">button&lt;/div&gt; 
+                    <br>
+                    <span class="g">→ 모든 스크린리더가 버튼이라 안내, 키보드 포커스 진입 불가능"</span>
+                </td> 
+               <td>
+                    1. 일반 태그에 role=""button""<br>
+                    &lt;div role=""button"" tabindex=""0"">button&lt;/div&gt;
+                    <br>
+                    <span class="g">
+                        → 모든 스크린리더가 버튼이라 안내, 키보드 포커스 진입 가능.<br>
+                        일반 태그에 포커스가 진입이 가능하도록 tabindex=""0""이 제공되어야 함.
+                    </span>
+               </td> 
+            </tr>
+            <tr>
+                <td>
+                    2. a태그에 role=""button""<br>
+                    &lt;a role=""button""&gt;button&lt;/a&gt;<br>
+                    <span class="g">
+                    → 모든 스크린리더가 버튼이라 안내, 키보드 포커스 진입 불가능"
+                    </span>		
+                </td>
+                <td>
+                    2. a태그에 role=""button""<br>
+                    &lt;a role=""button"" href=""#""&gt;button &lt;/a&gt;<br>
+                    <span class="g">
+                        → 모든 스크린리더가 버튼이라 안내, 키보드 포커스 진입 가능"		
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">img</th>
+                <td>
+                   1. 의미하는바가 동일한 이미지<br>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;img ...alt=""text alternatives"" role=""img""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;img ...alt=""text alternatives"" role=""img""&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요<br><br>
+                        img 태그와 role ="img" 의미가 중복됨<br>
+                        센스리더 : 각 이미지의 alt 태그 읽어주고 그래픽이라 안내<br> 
+                        talkback : 각 이미지의 alt 태그 읽어주고 그래픽이라 안내  <br>
+                        voiceOver: alt 태그 읽고 이미지라 안내 		
+                    </span>
+                </td>
+                <td>
+                    1. 의미하는바가 동일한 이미지<br>
+                    1-1) <br>
+                    &nbsp; &lt;div role=""img"" aria-label=""이미지 간략 설명""&gt;<br>
+                    &nbsp; &lt;img ...alt=""&gt;lgtimg ...alt=""&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성 필요	<br><br>
+                        센스리더 : aria-lable 내용 읽어주고 그래픽이라안내<br> 
+                        talkback : aria-lable 내용 읽어주고 그래픽이라안내<br>
+                        voiceOver: alt 태그 읽은후 이미지라 안내 	
+                    </span>
+                    <br><br>
+                    1-2)<br>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;img ...alt="text alternatives"" role=""img""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;img ...alt="" role=""img""&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성 필요	<br><br>
+                        센스리더 : 각 이미지의 alt 태그 읽어주고 그래픽이라 안내<br>
+                        talkback : alt 태그읽음	그래픽이라 안내 <br>
+                        voiceOver: alt 태그읽음	
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    2. 별점 컨텐츠<br>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;☆&lt;/span&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요 <br><br>
+                        별점이 색상만으로 제공<br>
+                        센스리더 : 리더기가 인식못함<br>
+                        talkback : 검은색별 검은색별 검은색별 검은색별 한번에 읽음<br>
+                        voiceOver:  검은별, 검은별, 검은별, 검은별 흰색별
+
+                    </span>
+                </td>
+                <td>
+                    2-1) 별점 컨텐츠<br>
+                    &lt;div role="img" aria-label="Rating: 4 out of 5 stars"&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;★&lt;/span&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;☆&lt;/span&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : 5점중에 4점 그래픽<br>
+                        talkback :  5점중에 4점 그래픽 <br>
+                        voiceOver: 5점중에 4점 이미지 목록 끝
+                    </span>	
+                </td>
+            </tr>
+            <tr>
+                <th>tablist</th>
+                <td rowspan="2">
+                    1. 탭 컨텐츠의  탭 버튼<br>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" &gt;tab1 active&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" &gt;tab2&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" &gt;tab3&lt;/button&gt;...<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요"<br>
+                        상위 div에 role="tablist"가 있어야함<br>
+                        active 상태가 텍스트가 아닌 aria-selected로 제공되어야한다.  <br>
+                         센스리더 : ㅇㅇ탭,ㅇㅇ탭,ㅇㅇ탭으로 안내 <br>
+                        talkback :제목1active탭 활성화하려면 두번탭하세요.제목2탭 활성화하려면 두번탭하세요. 제목3 활성화하려면 두번탭하세요 <br>
+                        voiceOver: ㅇㅇ탭 총3개중 1번째, 제목2탭 총2개중 2번째, 제목3탭 총3개중 3번쨰
+                    </span>	
+                </td>
+                <td rowspan="2">
+                    1. 탭 컨텐츠의  탭 버튼<br>
+                        &lt;div role=""tablist""&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab""&gt;tab1 active&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab""&gt;tab2&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab""&gt;tab3&lt;/button&gt;...<br>
+                        &lt;/div&gt;<br>
+                    
+                    <span class="g">
+                         → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : ㅇㅇ탭,ㅇㅇ탭,ㅇㅇ탭으로 안내<br>
+                        talkback : 제목1탭 활성화하려면 두번 택하세요.제목2탭활성화하려면 두번탭하세요 제목3탭 활성화하려면 두번탭하세요<br>
+                        voiceOver: ㅇㅇ탭 총3개중 1번째, 제목2탭 총2개중 2번째, 제목3탭 목록 끝 총3개중 3번쨰
+                    </span>	
+                </td>
+            </tr>
+            <tr>
+                <th>tab</th>
+            </tr>
+            <tr>
+                <th rowspan="14">aria</th>
+                <th rowspan="2">aria-aria-selected</th>
+                <td>
+                    1. 버튼 선택정보 제공<br>
+                    &lt;button&gt;btn1&lt;/button&gt;<br>
+                    &lt;button aria-selected=""true""&gt;btn2&lt;/button&gt;<br>
+                    &lt;button&gt;btn3&lt;/button&gt;<br>
+                    <span class="g">
+                        스크린리더 및 실패이유 작성 필요<br>
+                        → false값 제공x, 몇개중에 선택됐는지 정보x<br>
+                        센스리더 : btn1버튼, btn2버튼, btn3버튼<br>
+                    talkback : btn1버튼 활성~두번탭,btn활성~두번탭,btn3버튼 활성~두번탭 <br>
+                        voiceOver: btn1버튼, 선택됨 btn2 버튼, btn3버튼<br>
+                    </span>
+                </td>
+                <td>
+                    1. 버튼 선택정보 제공<br>
+                    1-1)<br>
+                    &lt;button&gt;btn1&lt;/button&gt;<br>
+                    &lt;button title=""selected""&gt;btn2&lt;/button&gt;<br>
+                    &lt;button&gt;btn3&lt;/button&gt;<br>
+                    <span class="g">
+                    → 스크린리더가 읽는 내용 작성필요<br>
+                   
+                    센스리더 btn1버튼, btn2버튼선택됨, btn3버튼<br>
+                    talkback :btn1버튼 활성~두번탭,btn2 버튼 selected 활성~두번탭,btn3버튼 활성~두번탭 <br>
+                    voiceOver: btn1버튼 btn2버튼selected,btn3버튼 <br>
+                    </span>
+                    1-2)
+                    &lt;div role="tablist"&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab"" aria-selected="false"&gt;btn1&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab"" aria-selected="true"&gt;btn2&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role=""tab"" aria-selected="false"&gt;btn3&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : btn1페이지 버튼, btn2페이지 버튼,btn3페이지 버튼<br>
+                talkback : btn1탭 활성~두번탭, 선택됨 btn2 탭 활성~ 두번탭, btn3 활성~두번탭<br>
+                        voiceOver: btn1 탭 총3개중1번째, 선택됨btn2 총3개중2번째,btn3 탭 총3개중3번째<br>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &lt;div role="tablist"&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" aria-selected="true"&gt;tab1 active&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab"&gt;tab2&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab"&gt;tab3&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                    → 스크린리더 및 실패이유 작성 필요"	<br>
+                    → false값 제공x<br>
+                        센스리더 : tab1 active페이지탭,tab2페이지탭,tab3페이지탭<br>
+                    talkback : 선택됨 tab1 active 활성~ 두번탭, 탭2 활성~두번, 탭3 활성~두번<br>
+                        voiceOver: 선택됨 btn1 탭 총3개중1번째, btn2 총3개중2번째,btn3 탭 총3개중3번째<br>
+                     </span>	
+                </td>
+                <td>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" aria-selected="true"&gt;tab1 active&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" aria-selected="false"&gt;tab2&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button role="tab" aria-selected="false"&gt;tab3&lt;/button&gt;...<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                       → 스크린리더가 읽는 내용 작성필요"<br>
+                       센스리더 : tab1 active페이지탭,tab2페이지탭,tab3페이지탭<br>
+                        talkback : 선택됨 tab1 active 탭 활성~ 두번탭, 탭2 탭 활성~두번, 탭3탭 활성~두번<br>
+                        voiceOver: 선택됨 tab1 active 탭 총3개중1번째,tab2 총3개중2번째, tab3 탭 목록끝 총3개중3번째<br>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">aria-expanded</th>
+                <td>
+                    "1. 확장<br>
+                    &lt;button aria-expaned="true" title="축소됨"&gt;더보기&lt;/button&gt;<br>
+                    <span class="g">
+                    → 스크린리더 및 실패이유 작성 필요<br>
+                    aria-expaned="true", title="축소됨" 중복<br> 
+                        센스리더 : 더보기 버튼 축소됨<br>
+                        talkback : 더보기 버튼 축소됨 활성~두번탭<br>
+                        voiceOver: 더보기 버튼 축소됨<br>
+                    </span>
+                </td>
+                <td>
+                    1. 확장<br>
+                    &lt;button aria-expaned="true" &lt;/button&gt;더보기 <br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요"<br>
+                        센스리더 :더보기버튼<br>
+                        talkback :더보기버튼 활성~두번탭 <br>
+                        voiceOver: 더보기 버튼<br>
+                    </span>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    "2. 축소<br>
+                    &lt;button aria-expaned="false"&gt;더보기&lt;/button&gt;<br>
+                    <span class="g">
+                    → 스크린리더 및 실패이유 작성 필요"	<br>
+                    aria-expaned="true", title="확장됨" 중복<br> 
+                        센스리더 :더보기버튼 확장됨<br>
+                        talkback : 더보기 버튼 확장됨 활성~두번탭<br>
+                        voiceOver: 더보기 버튼 확장됨<br>
+                    </span>	
+                </td>
+                <td>
+                    "2. 축소<br>
+                    &lt;button aria-expaned="false"&gt;더보기&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 더보기버튼<br>
+                        talkback :더보기 버튼 활성~두번탭 <br>
+                        voiceOver: 더보기 버튼 목록 끝<br>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">aria-label</th>
+                <td>
+                    "1. 버튼 정보가 없는 이미지 버튼<br>
+                    &lt;button&gt;<br>
+                    &lt;svg...&gt;...&lt;/svg&gt;<br>
+                    &lt;/button&gt;<br>
+                    <span class="g">
+                     → 스크린리더 및 실패이유 작성 필요"<br>
+                        무슨버튼인지 안내x<br>
+                        센스리더 : 버튼<br>
+                        talkback : 버튼 활성화~두번탭<br>
+                        voiceOver: 버튼<br>
+                    </span>
+                </td>
+                <td>
+                    "1. 버튼 정보가 없는 이미지 버튼<br>
+                    &lt;button aria-label="close"&gt;<br>
+                    &lt;svg...&gt;...&lt;/svg&gt;<br>
+                    &lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : close버튼<br>
+                        talkback : close버튼<br>
+                        voiceOver: close버튼<br>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    "2. label in name<br>
+                    &lt;a ...target="_blank" aria-label="open in a new window">Learn more&lt;/a&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요"<br>
+                        aria-label="보이는텍스트+레이블내용으로 제공"해야함<br>
+                        <br>	
+                        센스리더 : area-label 값만 읽어줌 label값~~ 방문하기 링크<br>
+                        talkback : area-label 값만 읽어줌 <br>
+                        voiceOver: aria-label값읽어줌 링크 <br>
+                    </span>
+                </td>
+                <td>
+                    "2. label in name<br>
+                    &lt;a ...target="_blank" aria-label="learn more. open in a new window">Learn more&lt;/a&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 :   보이는텍스트값+ label값~~ 방문하기 링크 <br>
+                        talkback : 보이는텍스트값+ label값~~ 방문하기 링크<br>
+                        voiceOver: 더보기 새창으로 열기 방문함 링크 목록끝<br>
+                    </span>		
+                </td>
+            </tr>
+            <tr>
+                <th>aria-labelledby</th>
+                <td>
+                    "1. 버튼과 레이블 연결<br>
+                    &lt;p id="id1">label 내용&lt;/p&gt;<br>
+                    &lt;button aria-labelledby="id1"&gt;btn text&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요"<br>	
+                        btn 텍스트가 무시. label 내용만 읽게됨<br>
+                        센스리더 :  label내용 버튼ㅊ<br>
+                        talkback :  label내용 버튼<br>
+                        voiceOver:  label내용 버튼<br>
+                    </span>
+                </td>
+                <td>
+                    "1.  버튼과 레이블 연결<br>
+                    1-1) 버튼 정보가 제공되지 않은 빈 버튼에 사용<br>
+                    &lt;p id="id1"&gt;label 내용&lt;/p&gt;<br>
+                    &lt;button aria-labelledby="id1"&gt;<br>
+                    <!-- 가상요소 background img -->
+                    &lt;/button&gt;
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : label내용 버튼<br>
+                        talkback : label내용<br>
+                        voiceOver:  label내용 버튼<br>
+                    </span>	
+                    
+                    <br><br>
+                    1-2)aria-describedby 사용<br>
+                    &lt;p id="id1"&gt;label 내용&lt;/p&gt;<br>
+                    &lt;button aria-describedby="id1"&gt;btn text&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 :id값 텍스트내용<br>
+                        talkback : btn텍스트 버튼 :id값 텍스트내용 <br>
+                        voiceOver: btn텍스트 버튼 :id값 텍스트내용 <br>
+                    </span>		
+                </td>
+            </tr>
+            <tr>
+                <th>aria-describedby</th>
+                <td colspan="2">
+                    1. &lt;button&gt;에 aria-describedby <br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;button aria-describedby=""id1""&gt;button&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 : 버튼 텍스트값 읽고 아이디텍스트값 읽음<br>
+                        talkback :아이디텍스트값,버튼 <br>
+                        voiceOver: 아이디텍스트값,버튼텍스트값읽음<br>
+                    </span>
+                    
+                    <br><br>
+                    
+                    2. role=""button""이 제공된 &lt;button&gt; 태그에 aria-describedby <br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;button role=""button"" tabindex=""0"" aria-describedby=""id1""&gt;button, role button&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 :  버튼 텍스트값 읽고 아이디텍스트값 읽음<br>
+                        talkback : 버튼 텍스트값 읽고 버튼, 아이디텍스트값 읽음<br>
+                        voiceOver:  버튼 텍스트값 읽고 아이디텍스트값 읽음<br>
+                    </span>
+                    
+                    <br><br>
+                    
+                    3. role=""button""이 제공된 일반 태그에 aria-describedby <br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;div role=""button"" tabindex=""0"" aria-describedby=""id1""&gt;div button&lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 : div 안에 쓴 텍스트 + id 텍스트값 읽고 버튼이라 안내<br>
+                        talkback : div 안에 쓴 텍스트 버튼 id 텍스트값안내<br>
+                        voiceOver: div 안에 쓴 텍스트 버튼 id 텍스트값안내<br>
+                    </span>
+                    
+                    <br><br>
+                    
+                    4. &lt;a&gt;에 aria-describedby<br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;a ...aria-describedby=""id1""&gt;anchor&lt;/a&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 :<br>
+                        talkback : a링크 텍스트 링크 id값 텍스트 <br>
+                        voiceOver:  a링크 텍스트,링크 id 텍스트값 읽음<br>
+                    </span>
+                    
+                    <br><br>
+                    
+                    5. role=""button""이 제공된 &lt;a&gt; 태그에 aria-describedby<br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;a ...role=""button"" aria-describedby=""id1""&gt;anchor button&lt;/a&gt; <br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 : a링크 텍스트 방문하기 링크<br>
+                        talkback : a링크 텍스트 버튼 id값 텍스트  <br>
+                        voiceOver: a링크 텍스트 버튼 id값 텍스트<br>
+                    </span>
+                    
+                    <br><br>
+
+                    6. 일반 태그에 aria-describedby<br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;p aria-describedby=""id1""&gt;text&lt;/p&gt;  <br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 : xx <br>
+                        talkback :p태그 읽고 id값텍스트읽음<br>
+                        voiceOver: p태그 읽고 id값텍스트읽음 <br>
+                    </span>
+                    
+                    <br><br>
+
+                    7. &lt;img&gt; 태그에 aria-describedby<br>
+                    &lt;p id=""id1""&gt;describes&lt;/p&gt;<br>
+                    &lt;img src=""#"" alt=""image alternative""aria-describedby=""id1""&gt; <br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요(스크린리더 3개다 테스트 필요) <br>
+                        센스리더 : 이미지 ALT 태그내용만 읽음<br>
+                        talkback :이미지 alt 이미지 id텍스트값 읽음 <br>
+                        voiceOver: 이미지 alt 이미지 id텍스트값 읽음<br>
+                    </span>
+                 </td>
+            </tr>
+            <tr>
+                <th>aria-current</th>
+                <td colspan="2">
+                    &lt;nav aria-label=""Breadcrumb""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a ...&gt;1 depth&lt;/a&gt;&lt;/li&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a ...&gt;2 depth&lt;/a&gt;&lt;/li&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;strong aria-current=""page""&gt;현재 페이지&lt;/strong&gt;&lt;/li&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;/div&gt;<br>
+                     &lt;/nav&gt;<br>
+                     <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : 1DEPTH 방문하기 링크,2DEPTH 방문하기 링크 <br>
+                        talkback : 1depth링크, 2depth링크<br>
+                        voiceOver: 흰색구분점 목록시작 랜드마크, 1DEPTH링크, 흰색구분점2depth링크  <br>
+                    </span>		
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">aria-pressed</th>
+                <td>
+                    1. 누름<br>
+                    &lt;button aria-pressed="true" title="누름"&gt;btn text&lt;/button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        aria-pressed="true" title="누름" 중복<br>
+                        센스리더 : 선택 btn txt 버튼 누름<br>
+                        talkback : 사용 btn txt 전환버튼 누름 전환하려면~두번탭<br>
+                        voiceOver: btn txt 토클 버튼 누름 누름 설정을 끄거나 켜려면 이중탭하십시오.<br>
+                    </span>		    
+                </td>
+                <td>
+                    1. 누름<br>
+                     &lt;button aria-pressed=""true""  title=""누름""&gt;btn text&lt;/button&gt;<br>
+                     <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : 선택 btn txt 버튼<br>
+                        talkback : 사용 btn txt 전환버튼 전환하려면~두번탭<br>
+                        voiceOver:btn txt 토클버튼 누름 설정을 끄거나 켜려면 이중탭하십시오 <br>
+                    </span>		
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    2. 누르지 않음<br>
+                     &lt;button aria-pressed="false" title="누르지 않음">btn text&lt;/button&gt;<br>
+                     <span class="g"> 
+                         → 스크린리더 및 실패이유 작성 필요"<br>
+                         aria-pressed="false" title="누르지 않음" 중복<br>
+                         센스리더 : btn txt 버튼 누르지 않음 <br>
+                         talkback : 사용안함 btn txt 전환버튼 누르지않음 전환하려면~두번탭<br>
+                         voiceOver: btn txt 토클 버튼 누르지않음 누르지않음 설정을 끄거나 켜려면 이중탭하십시오.<br>
+                     </span>
+                </td>
+                <td>
+                    2. 누르지 않음<br>
+                     &lt;button aria-pressed=""false"" title=""누르지 않음"">btn text&lt;/button&gt;<br>
+                     <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : btn txt 버튼<br>
+                        talkback :사용안함 btn txt 전환버튼 전환하려면~두번탭 <br>
+                        voiceOver:btn txt 토클버튼 누르지않음 설정을 끄거나 켜려면 이중탭하십시오 <br>
+                        
+                    </span>		
+                </td>
+            </tr>
+            <tr>
+                <th>aria-disabled</th>
+                <td>
+                    "1. 기능이 실행 가능한 비활성화 버튼<br>
+                    &lt;button aria-disabled=""true""&gt;비활성 버튼&lt;button&gt;<br>
+                   <span class="g"> 
+                       → 스크린리더 및 실패이유 작성 필요"<br>
+                       tab접근을 비활성화해야함,<br>
+                       센스리더 : 버튼txt를 읽고 사용불가버튼이라 안내<br>
+                       talkback : 버튼txt 읽고 버튼 사용할수없음<br>
+                       voiceOver: 버튼txt  흐리게 표시됨 버튼<br>
+                </span>		
+                </td>
+                <td>
+                    "1. 기능이 실행 가능한 비활성화 버튼<br>
+                    1-1)<br>
+                    &lt;button tabindex=""-1"" aria-disabled=""true""&gt;비활성 버튼&lt;button&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : 버튼txt를 읽고 사용불가버튼이라 안내 tab으로 접근불가<br>
+                        talkback :  버튼txt읽고 버튼 사용할수없음<br>
+                        voiceOver:버튼txt  흐리게 표시됨 버튼 <br>
+                    </span>	
+
+                    1-2)<br>
+                    &lt;button aria-disabled=""true""&gt;비활성 버튼 &lt;/button&gt;<br>
+                    (+ 스크립트로 버튼 기능을 비활성화)<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 :버튼txt를 읽고 사용불가버튼이라 안내<br>
+                        talkback :버튼txt읽고 버튼 사용할수없음 <br>
+                        voiceOver: 버튼txt  흐리게 표시됨 버튼<br>
+                    </span>	
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">aria-hidden</th>
+                <td>
+                    1. 일반태그 숨기기<br>
+                    &lt;div style=""opacity:0;""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;heading &lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;숨겨진 내용&lt; /p &gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div &gt;
+                    <span class="g">→ 스크린리더 및 실패이유 작성 필요
+                        <br>
+                        숨긴내용을 그대로 읽음<br>
+                        센스리더 :작성한 택스트 내용읽어줌<br>
+                        talkback : 헤딩 머리말 레벨1,p 태그 텍스트<br>
+                        voiceOver: 헤딩 머리말 레벨1,p 태그 텍스트<br>
+                    </span>
+                </td>
+                <td>
+                    1. 일반태그 숨기기<br>
+                    1-1)<br>
+                    &lt;div style=""opacity:0; display:none;""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;heading&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;숨겨진 내용&lt;/p&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요<br>
+                        display:none으로 영역이 사라짐<br>
+                        센스리더 : X<br>
+                        talkback :X <br>
+                        voiceOver:X <br>
+                    </span>
+                    <br><br>
+                    1-2)<br>
+                    &lt;div style=""opacity:0;"" aria-hidden=""true""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;heading&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;숨겨진 내용&lt;/p&gt;<br>
+                   &lt;/div&gt;
+                    <span class="g">
+                        → 스크린리더 및 실패이유 작성 필요<br>
+                        화면상에 영역그대로 노출,
+                        센스리더 :X<br>
+                        talkback :X <br>
+                        voiceOver:X <br>
+                    	</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    2. focusable 태그 숨기기<br>
+                    &lt;div&gt;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button tabindex=""-1""&gt;숨겨진 버튼&lt;/button&gt;
+                    &lt;/div&gt;<br>
+                   <span class="g">
+                       → 스크린리더 및 실패이유 작성 필요<br>
+                       센스리더 :X<br>
+                       talkback : 버튼텍스트 버튼<br>
+                       voiceOver: 버튼텍스트 버튼<br>
+
+                   </span>	
+                </td>
+                <td>
+                    2. focusable 태그 숨기기<br>
+                    2-1)<br>
+                    &lt;div aria-hidden=""true""&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button tabindex=""-1""&gt;숨겨진 버튼&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 :X<br>
+                        talkback :X <br>
+                        voiceOver:X <br>
+                    </span>	
+                    <br><br>
+                    2-2)<br>
+                    &lt;div&gt;<br>
+                    &lt;button tabindex=""-1"" aria-hidden=""true""&gt;숨겨진 버튼&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                    <span class="g">
+                        → 스크린리더가 읽는 내용 작성필요<br>
+                        센스리더 : X<br>
+                        talkback : X<br>
+                        voiceOver: X<br>
+                    </span>	
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

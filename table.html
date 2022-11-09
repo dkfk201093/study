@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{margin:0; padding:0}
+        table {width:100%;margin:100px 0 300px}
+        table th{padding:8px 0;text-align: center;background-color:#e1e3ed;}
+        table td {padding:10px 18px;border-left: 1px solid #eee;border-top: 1px solid #eee;}
+        .red{color:#f1344d;font-weight:bold;}
+        img{width:300px}
+    </style>
+</head>
+<body>
+    <section>
+      <h2>role img</h2>
+      <ul>
+        <li>
+          1. 의미한바가 동일한 이미지 
+          <div>
+            <img src="./img/car1.png" alt="차" role="img" >
+            <img src="./img/car2.png" alt="오토바이" role="img">
+          </div>
+
+          1-1)
+          <div role="img" aria-label="차와 오토바이">
+            <img src="./img/car1.png" alt="">
+            <img src="./img/car2.png" alt="">
+          </div>
+          1.2)
+          <div>
+            <img src="./img/car1.png" role="img" alt="차">
+            <img src="./img/car2.png" role="img" alt="오토바이">
+          </div>
+        </li>
+        <li>
+          2. 별점컨텐츠
+          <div>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>☆</span>
+          </div>
+          2-1
+          <div role="img" aria-label="5점중에 4점">
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>☆</span>
+        </div>
+        </li>
+        
+      </ul>
+    </section>
+    <section>
+      <h2>role tablist, tab</h2>
+      <ul>
+        <li>
+          2.탭컨텐츠의 탭버튼
+          <div>
+            <button role="tab">제목1 active</button>
+            <button role="tab">제목2</button>
+            <button role="tab">제목3</button>
+          </div>
+          2-1) 
+          <div role="tablist">
+            <button role="tab">제목1</button>
+            <button role="tab">제목2</button>
+            <button role="tab">제목3</button>
+           </div>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>area-selected</h2>
+      <ul>
+        <li>
+          3.버튼 선택정보 제공
+          <button>btn1</button>
+          <button aria-selected="true">btn2</button>
+          <button>btn3</button>
+          
+          3-1)
+          <button>btn1</button>
+          <button title="selected">btn2</button>
+          <button>btn3</button>
+          
+          3-2)
+          <div role="tablist">
+            <button role="tab" aria-selected="false">btn1</button>
+            <button role="tab" aria-selected="true">btn2</button>
+            <button role="tab" aria-selected="false">btn3</button>
+          </div>
+        </li>
+        <li>
+          4
+          <div role="tablist">
+            <button role="tab" aria-selected="true">tab1 active</button>
+            <button role="tab">tab2</button>
+            <button role="tab">tab3</button>
+           </div>
+           4-1
+           <div>
+            <button role="tab" aria-selected="true">tab1 active</button>
+            <button role="tab" aria-selected="false">tab2</button>
+            <button role="tab" aria-selected="false">tab3</button>
+           </div>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-expanded</h2>
+      <ul>
+        <li>
+          5. 확장
+          <button aria-expaned="true" title="축소됨">더보기</button>
+          5-1)
+          <button aria-expaned="true">더보기</button><br>
+          6. 축소
+          <button aria-expaned="false" title="확장됨">더보기</button>
+          6-1)
+          <button aria-expaned="false">더보기</button>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>area-label</h2>
+      <ul>
+        <li>
+          6. 버튼 정보가 없는 이미지 버튼
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg>
+          </button>
+          6.1
+          <button aria-label="close">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg>
+          </button>
+    
+        </li>
+        <li>
+          7. label in name
+          <a href="#" target="_blank" aria-label="새창열기">더보기</a>
+          7-1 
+          <a href="" target="_blank" aria-label="더보기. 새창으로 열기">더보기</a>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-labelledby</h2>
+      <ul>
+        <li>
+         8. 버튼과 레이블 연결
+          <p id="id1">label 내용</p>
+          <button aria-labelledby="id1">btn text</button>
+          8-1 버튼 정보가 제공되지 않은 빈 버튼에 사용
+          <p id="id2">label 내용</p>
+          <button aria-labelledby="id2">
+          <!-- 가상요소 background img -->
+          </button>
+
+          8-2)aria-describedby 사용
+          <p id="id3">label 내용</p>
+          <button aria-describedby="id3">btn text</button>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-describedby</h2>
+      <ul>
+        <li>
+          9. &lt;button&gt;에 aria-describedby 
+          <p id="id4">describes</p>
+          <button aria-describedby="id4">button</button>
+        </li>
+        <li>
+          9-1) role=""button""이 제공된 &lt;button&gt; 태그에 aria-describedby 
+          <p id="id5">describes</p>
+          <button role="button" tabindex="0" aria-describedby="id5">button, role button</button>
+        </li> 
+        <li>
+          9-2) role=""button""이 제공된 일반 태그에 aria-describedby 
+          <p id="id6">describes</p>
+          <div role="button" tabindex="0" aria-describedby="id6">div button</div>
+        </li>          
+        <li>
+          9-3) &lt;a&gt;에 aria-describedby
+          <p id="id7">describes</p>
+          <a href="#" aria-describedby="id7">anchor</a>
+        </li>          
+        <li>
+          9-4) role=""button""이 제공된 &lt;a&gt; 태그에 aria-describedby
+          <p id="id8">describes</p>
+          <a  href="#" role="button" aria-describedby="id8">anchor button</a> 
+        </li>
+        <li>
+          9-5) 일반 태그에 aria-describedby
+          <p id="id9">describes</p>
+          <p aria-describedby="id9">text</p> 
+        </li>          
+        <li>
+          9-6)<img> 태그에 aria-describedby
+          <p id="id10">describes</p>
+          <img src="#" alt="설명설명" aria-describedby="id10"> 
+        </li>          
+      </ul>
+    </section>
+    <section>
+      <h2>aria-current</h2>
+      <ul>
+        <li>
+          10.
+          <nav aria-label="Breadcrumb">
+            <div>
+              <ul>
+                  <li><a href="#">1 depth</a></li>
+                  <li><a href="#">2 depth</a></li>
+                  <li><strong aria-current="page">현재 페이지</strong></li>
+              </ul>
+            </div>
+       </nav>
+      </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-pressed</h2>
+      <ul>
+        <li>
+          11. 누름
+          <button aria-pressed="true" title="누름">btn text</button>
+          11-1
+          <button aria-pressed="true">btn text</button>
+        </li>
+        <li>
+          12  누르지 않음
+          <button aria-pressed="false" title="누르지 않음">btn text</button>
+          12-1
+          <button aria-pressed="false">btn text</button>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-disabled</h2>
+      <ul>
+        <li>
+          13. 기능이 실행 가능한 비활성화 버튼
+          <button aria-disabled="true">비활성 버튼</button>
+          13-1)
+          <button tabindex="-1" aria-disabled="true">비활성 버튼</button>
+          13-2)
+          <button aria-disabled="true">비활성 버튼</button>
+          (+ 스크립트로 버튼 기능을 비활성화)
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>aria-hidden</h2>
+      <ul>
+        <li>
+          14. 일반태그 숨기기
+          <div style="opacity:0;">
+            <h1>heading</h1>
+            <p>숨겨진 내용</p>
+          </div>
+          14-1)
+          <div style="display:none;">
+            <h1>heading</h1>
+            <p>숨겨진 내용</p>
+          </div>
+          14-2)
+          <div aria-hidden="true">
+            <h1>heading</h1>
+            <p>숨겨진 내용</p>
+          </div>
+        </li>
+        <li>
+          15. focusable 태그 숨기기
+          <div>
+             <button tabindex="-1">숨겨진 버튼</button>
+          </div>
+          15-1)
+          <div aria-hidden="true">
+            <button tabindex="-1">숨겨진 버튼</button>
+          </div>
+
+          15-2)
+          <div>
+            <button tabindex="-1" aria-hidden="true">숨겨진 버튼</button>
+          </div>
+        </li>
+      </ul>
+    </section>
+</body>
+</html>
